@@ -1,8 +1,10 @@
 package com.example.bank.domain.account
 
 import java.math.BigDecimal
+import java.math.BigInteger
 
 class Account(
+    val id: AccountId,
     val ownerName: String,
     val accountProduct: AccountProduct,
     val initialDeposit: BigDecimal,
@@ -14,6 +16,8 @@ class Account(
             }
             field = value
         }
-
-    fun displayId(): String = "${this.accountProduct.code}-0000001"
+    val displayId = AccountDisplayId("${this.accountProduct.code}-${this.id}")
 }
+
+data class AccountId(val value: String)
+data class AccountDisplayId(val value: String)
