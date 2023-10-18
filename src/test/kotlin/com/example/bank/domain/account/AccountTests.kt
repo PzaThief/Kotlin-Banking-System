@@ -13,18 +13,20 @@ class AccountTests {
     class CreateAccount() {
         @Test
         fun success() {
+            val accountId = AccountId("0000001")
             val ownerName = "홍길동"
             val initialDeposit = BigDecimal(0)
             val accountProduct = AccountProduct("1111")
 
             val account = Account(
+                id = accountId,
                 ownerName = ownerName,
                 accountProduct = accountProduct,
                 initialDeposit = initialDeposit,
             )
 
             assertEquals(initialDeposit, account.balance)
-            assertEquals("${accountProduct.code}-0000001", account.displayId())
+            assertEquals(AccountDisplayId("${accountProduct.code}-${account.id}"), account.displayId)
         }
     }
 }
