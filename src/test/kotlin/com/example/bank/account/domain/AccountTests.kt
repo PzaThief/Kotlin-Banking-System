@@ -1,4 +1,4 @@
-package com.example.bank.domain.account
+package com.example.bank.account.domain
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested

@@ -1,4 +1,4 @@
-package com.example.bank.domain.account
+package com.example.bank.account.domain
 
 import java.math.BigDecimal
 
