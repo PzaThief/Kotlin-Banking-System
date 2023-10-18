@@ -1,17 +1,16 @@
-package com.example.bank.domain
+package com.example.bank.domain.account
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import java.math.BigDecimal
-import java.util.*
 
 @SpringBootTest
-class BankAccountTests {
+class AccountTests {
 
     @Nested
-    class CreateBankAccount() {
+    class CreateAccount() {
         @Test
         fun success() {
             val ownerName = "홍길동"
