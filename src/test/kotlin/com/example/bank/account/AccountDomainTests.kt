@@ -1,5 +1,9 @@
-package com.example.bank.account.domain
+package com.example.bank.account
 
+import com.example.bank.account.domain.Account
+import com.example.bank.account.domain.AccountDisplayId
+import com.example.bank.account.domain.AccountId
+import com.example.bank.account.domain.AccountProduct
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
