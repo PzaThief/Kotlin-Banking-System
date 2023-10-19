@@ -19,8 +19,7 @@ configurations {
     all {
         exclude("org.springframework.boot", "spring-bootr-starter-logging")
         exclude("org.apache.logging.log4j", "log4j-to-slf4j")
-        exclude("ch.qos.logback", "logback-classic")
-    }
+        exclude("ch.qos.logback", "logback-classic")    }
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
@@ -57,7 +56,7 @@ dependencyManagement {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
+        freeCompilerArgs += listOf("-Xjsr305=strict", "-Xjvm-default=all")
         jvmTarget = "17"
     }
 }

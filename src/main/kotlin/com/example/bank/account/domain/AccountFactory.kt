@@ -2,19 +2,26 @@ package com.example.bank.account.domain
 
 import java.math.BigDecimal
 
+interface NextAccountIdGenerator {
+    fun nextAccountId(): Account.Id
+}
 class AccountFactory(
-    private val accountRepository: AccountRepository
+    private val nextAccountIdGenerator: NextAccountIdGenerator
 ) {
-    fun createAccount(
+    suspend fun createAccount(
         ownerName: String,
         accountProduct: AccountProduct,
         initialDeposit: BigDecimal
     ): Account {
+        val accountId = suspend { nextAccountIdGenerator.nextAccountId() }()
+        val displayId = Account.DisplayId("${accountProduct.code}-${accountId.toString().padStart(7, '0')}")
+
         return Account(
-            id = accountRepository.nextAccountId(),
+            id = accountId,
+            displayId = displayId,
             ownerName = ownerName,
             accountProduct = accountProduct,
-            initialDeposit = initialDeposit
+            initialDeposit = initialDeposit,
         )
     }
 }
