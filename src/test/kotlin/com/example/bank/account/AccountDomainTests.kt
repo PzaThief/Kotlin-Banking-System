@@ -4,8 +4,10 @@ import com.example.bank.account.domain.*
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
+@ActiveProfiles("test")
 class AccountDomainTests {
 
     @Nested

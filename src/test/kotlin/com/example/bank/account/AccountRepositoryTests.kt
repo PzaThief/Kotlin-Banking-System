@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
 @DataJpaTest
 @Import(JpaAuditingConfig::class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 class AccountRepositoryTests(
     @Autowired
     private val accountRepository: AccountJpaRepository

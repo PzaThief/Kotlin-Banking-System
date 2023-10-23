@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" monitorInterval="5">
-    <!--공통 속성 설정 -->
+<Configuration status="info" monitorInterval="5">
     <Properties>
         <Property name="consoleLayout">[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}:%L] - %m%n</Property>
     </Properties>
@@ -12,9 +11,8 @@
     </Appenders>
 
     <Loggers>
-        <logger name="org.springframework" level="info" additivity="false" >
+        <root level="info">
             <AppenderRef ref="console" />
-        </logger>
-        <Root level="info"></Root>
+        </root>
     </Loggers>
 </Configuration>

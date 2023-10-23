@@ -9,7 +9,7 @@ RUN ./gradlew bootJar
 
 FROM eclipse-temurin:17.0.8.1_1-jre
 COPY --from=builder build/libs/*.jar app.jar
-ENV	PROFILE test
+ENV	PROFILE dev
 
 ENTRYPOINT ["java","-Dspring.profiles.active=${PROFILE}", "-jar", "/app.jar"]
 
