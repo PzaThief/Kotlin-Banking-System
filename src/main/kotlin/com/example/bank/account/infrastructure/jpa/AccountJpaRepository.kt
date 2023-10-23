@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository
 import java.math.BigInteger
 
 interface AccountJpaRepository: CrudRepository<Account, BigInteger>, AccountRepository, NextAccountIdGenerator {
-    override fun findByDisplayId(displayId: Account.DisplayId): Account
+    override fun findByDisplayId(accountDisplayId: Account.DisplayId): Account
 
     @Query(value = "SELECT nextval('seq_account')", nativeQuery = true)
     fun nextAccountIdString(): String
