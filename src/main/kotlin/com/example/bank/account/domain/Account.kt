@@ -1,8 +1,9 @@
 package com.example.bank.account.domain
 
 import jakarta.persistence.*
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -12,6 +13,7 @@ import java.time.LocalDateTime
 @Table(name = "account", indexes = [
     Index(name = "account_display_id_idx", columnList = "display_id")
 ])
+@EntityListeners(AuditingEntityListener::class)
 class Account(
     @EmbeddedId
     val id: Id,
@@ -29,13 +31,13 @@ class Account(
     @Column(name="balance", nullable = false)
     var balance: BigDecimal = initialDeposit,
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @Column(name = "updated_at", columnDefinition = "timestamp with time zone")
     var updatedAt: LocalDateTime? = null,
 
-    @CreationTimestamp
+    @CreatedDate
     @Column(name = "created_at", columnDefinition = "timestamp with time zone", nullable = false, updatable = false)
-    val createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null
 ) {
     @Embeddable
     data class Id(
