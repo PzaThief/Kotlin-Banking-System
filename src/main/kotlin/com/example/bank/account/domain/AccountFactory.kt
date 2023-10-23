@@ -14,14 +14,17 @@ class AccountFactory(
         initialDeposit: BigDecimal
     ): Account {
         val accountId = suspend { nextAccountIdGenerator.nextAccountId() }()
-        val displayId = Account.DisplayId("${accountProduct.code}-${accountId.value.toString().padStart(7, '0')}")
 
         return Account(
             id = accountId,
-            displayId = displayId,
+            displayId = newDisplayId(accountProduct, accountId),
             ownerName = ownerName,
             accountProduct = accountProduct,
             initialDeposit = initialDeposit,
         )
+    }
+
+    private fun newDisplayId(accountProduct: AccountProduct, accountId: Account.Id): Account.DisplayId {
+        return Account.DisplayId("${accountProduct.code}-${accountId.value.toString().padStart(7, '0')}")
     }
 }
