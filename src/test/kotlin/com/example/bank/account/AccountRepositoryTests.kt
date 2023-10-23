@@ -3,13 +3,18 @@ package com.example.bank.account
 import com.example.bank.account.domain.Account
 import com.example.bank.account.domain.AccountProduct
 import com.example.bank.account.infrastructure.jpa.AccountJpaRepository
+import com.example.bank.config.JpaAuditingConfig
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.context.annotation.Import
 import java.math.BigDecimal
 
-@SpringBootTest
+@DataJpaTest
+@Import(JpaAuditingConfig::class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AccountRepositoryTests(
     @Autowired
     private val accountRepository: AccountJpaRepository
@@ -35,8 +40,9 @@ class AccountRepositoryTests(
         )
         assertNotNull(account.createdAt)
 
+        val lastUpdatedAt = account.updatedAt
         account.balance = BigDecimal(100)
         accountRepository.saveAndFlush(account)
-        assertNotNull(account.updatedAt)
+        assert(account.updatedAt!! > lastUpdatedAt)
     }
 }
