@@ -4,10 +4,8 @@ import com.example.bank.account.domain.*
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 import java.math.BigDecimal
 
-@SpringBootTest
 class AccountDomainTests {
 
     @Nested
@@ -15,7 +13,7 @@ class AccountDomainTests {
         @Test
         fun success() {
             class NextAccountIdGeneratorImpl:NextAccountIdGenerator {
-                var id = 0L
+                var id = 1L
                 override fun nextAccountId() = Account.Id(id++)
             }
             runBlocking {
@@ -27,7 +25,7 @@ class AccountDomainTests {
                 val account = accountFactory.createAccount(ownerName, accountProduct, initialDeposit)
 
                 assert(initialDeposit == account.balance)
-                assert(Account.DisplayId("${accountProduct.code}-${account.id.value}") == account.displayId)
+                assert(Account.DisplayId("1111-0000001") == account.displayId)
             }
         }
     }
