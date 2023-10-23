@@ -16,9 +16,9 @@ class AccountRepositoryTests(
 ) {
 
     @Test
-    fun nextAccountId() {
-        val firstAccountId = accountRepository.nextAccountId().also { println(it) }
-        val secondAccountId = accountRepository.nextAccountId().also { println(it) }
+    fun nextAccountIdShouldIncrease() {
+        val firstAccountId = accountRepository.nextAccountId()
+        val secondAccountId = accountRepository.nextAccountId()
         assert(firstAccountId.value < secondAccountId.value)
     }
 
