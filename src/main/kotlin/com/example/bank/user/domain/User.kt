@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(
-    name = "user", indexes = [
-        Index(name = "account_login_id_idx", columnList = "login_id")
+    name = "`user`", indexes = [
+        Index(name = "user_login_id_idx", columnList = "login_id")
     ]
 )
 @EntityListeners(AuditingEntityListener::class)
@@ -23,7 +23,7 @@ class User(
     val loginId: String,
 
     @Column(name = "login_password", nullable = false)
-    val loginPassword: String,
+    var loginPassword: String,
 
     @Column(name = "name", nullable = false)
     val name: String,
