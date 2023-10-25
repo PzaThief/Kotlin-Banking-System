@@ -38,14 +38,14 @@ class UserPresentationTests(
                     loginId = "kotlin",
                     loginPassword = "bank",
                     name = "홍길동",
-                    personCategory = "natural",
+                    personCategory = "1",
                     registrationNumber = "990123-1012345",
                 )
                 val userCreateResponse = UserResponse(
                     id = 1,
                     loginId = "kotlin",
                     name = "홍길동",
-                    personCategory = "natural",
+                    personCategory = "1",
                     updatedAt = LocalDateTime.now(),
                     createdAt = LocalDateTime.now(),
                 )

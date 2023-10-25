@@ -11,8 +11,6 @@ enum class UserPersonCategory(val code: String) {
 
     companion object {
         operator fun invoke(code: String) = UserPersonCategory.values().first { it.code == code }
-        fun valueOfIgnoreCase(name: String) = UserPersonCategory.valueOf(name.uppercase())
-
     }
 
 }

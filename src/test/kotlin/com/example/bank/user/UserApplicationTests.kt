@@ -38,7 +38,7 @@ class UserApplicationTests {
                     loginId = "kotlin",
                     loginPassword = "bank",
                     name = "홍길동",
-                    personCategory = "natural",
+                    personCategory = "1",
                     registrationNumber = "990123-1012345",
                 )
                 val expectedSavedUser = User(
@@ -46,7 +46,7 @@ class UserApplicationTests {
                     loginId = "kotlin",
                     loginPassword = "hashedString",
                     name = "홍길동",
-                    personCategory = UserPersonCategory.valueOfIgnoreCase("natural"),
+                    personCategory = UserPersonCategory("1"),
                     registrationNumber = "encryptedString",
                     updatedAt = LocalDateTime.now(),
                     createdAt = LocalDateTime.now()

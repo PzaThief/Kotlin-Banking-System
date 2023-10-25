@@ -25,7 +25,7 @@ class UserFactory(
             loginId = loginId,
             loginPassword = hashedPassword,
             name = name,
-            personCategory = UserPersonCategory.valueOfIgnoreCase(personCategory),
+            personCategory = UserPersonCategory(personCategory),
             registrationNumber = encryptedRegistrationNumber,
         )
     }
