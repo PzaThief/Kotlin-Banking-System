@@ -1,11 +1,15 @@
 package com.example.bank.user
 
+import com.example.bank.user.application.UserApplication
 import com.example.bank.user.application.UserCreateRequest
 import com.example.bank.user.application.UserResponse
+import com.example.bank.user.presentation.UserController
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Nested
-import org.mockito.Mockito
+import org.junit.jupiter.api.Test
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -27,6 +31,7 @@ class UserPresentationTests(
 
     @Nested
     inner class CreateUser {
+        @Test
         fun createAccountShouldReturnDtoWith200() {
             runBlocking {
                 val userCreateRequest = UserCreateRequest(
@@ -37,7 +42,7 @@ class UserPresentationTests(
                     registrationNumber = "990123-1012345",
                 )
                 val userCreateResponse = UserResponse(
-                    Id = 1,
+                    id = 1,
                     loginId = "kotlin",
                     name = "홍길동",
                     personCategory = "natural",
@@ -59,7 +64,7 @@ class UserPresentationTests(
                         Assertions.assertThat(it.responseBody!!.createdAt).isNotNull()
                     }
 
-                Mockito.verify(application, Mockito.times(1)).createUser(userCreateRequest)
+                verify(application, times(1)).createUser(userCreateRequest)
             }
         }
     }
