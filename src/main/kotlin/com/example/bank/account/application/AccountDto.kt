@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class AccountCreateRequest(
-    val ownerName: String,
+    val ownerId: Long,
     val accountProduct: String,
     val initialDeposit: BigDecimal
 )
@@ -13,7 +13,7 @@ data class AccountCreateRequest(
 data class AccountResponse(
     val id: Long,
     val displayId: String,
-    val ownerName: String,
+    val ownerId: Long,
     val accountProduct: String,
     val initialDeposit: BigDecimal,
     val balance: BigDecimal,
@@ -23,7 +23,7 @@ data class AccountResponse(
     constructor(account: Account) : this(
         account.id.value,
         account.displayId.value,
-        account.ownerName,
+        account.ownerId,
         account.accountProduct.code,
         account.initialDeposit,
         account.balance,

@@ -36,14 +36,14 @@ class AccountPresentationTests(
         fun createAccountShouldReturnDtoWith200() {
             runBlocking {
                 val accountCreateRequest = AccountCreateRequest(
-                    ownerName = "홍길동",
+                    ownerId = 1,
                     accountProduct = "1111",
                     initialDeposit = BigDecimal(100)
                 )
                 val accountCreateResponse = AccountResponse(
                     id = 1L,
                     displayId = "1111-0000001",
-                    ownerName = "홍길동",
+                    ownerId = 1,
                     accountProduct = "1111",
                     initialDeposit = BigDecimal(100),
                     balance = BigDecimal(100),
@@ -75,7 +75,7 @@ class AccountPresentationTests(
                 val accountCreateResponse = AccountResponse(
                     id = 1L,
                     displayId = "1111-0000001",
-                    ownerName = "홍길동",
+                    ownerId = 1,
                     accountProduct = "1111",
                     initialDeposit = BigDecimal(100),
                     balance = BigDecimal(100),

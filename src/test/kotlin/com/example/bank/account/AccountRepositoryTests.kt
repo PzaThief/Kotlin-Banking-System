@@ -35,7 +35,7 @@ class AccountRepositoryTests(
             Account(
                 id = Account.Id(1),
                 displayId = Account.DisplayId("1111-0000001"),
-                ownerName = "홍길동",
+                ownerId = 1,
                 accountProduct = AccountProduct("1111"),
                 initialDeposit = BigDecimal(0),
             )

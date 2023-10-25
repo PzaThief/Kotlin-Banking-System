@@ -11,7 +11,8 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "account", indexes = [
-    Index(name = "account_display_id_idx", columnList = "display_id")
+    Index(name = "account_display_id_idx", columnList = "display_id"),
+    Index(name = "account_owner_id_idx", columnList = "owner_id"),
 ])
 @EntityListeners(AuditingEntityListener::class)
 class Account(
@@ -19,8 +20,8 @@ class Account(
     val id: Id,
     val displayId: DisplayId,
 
-    @Column(name="owner_name", nullable = false)
-    val ownerName: String,
+    @Column(name="owner_id", nullable = false)
+    val ownerId: Long,
 
     @Column(name="account_product_code", nullable = false, updatable = false)
     val accountProduct: AccountProduct,

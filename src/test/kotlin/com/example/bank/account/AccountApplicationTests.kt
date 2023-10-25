@@ -36,14 +36,14 @@ class AccountApplicationTests {
         fun createAccountShouldSameWithSavedAccount() {
             runBlocking {
                 val accountCreateRequest = AccountCreateRequest(
-                    ownerName = "홍길동",
+                    ownerId = 1,
                     initialDeposit = BigDecimal(0),
                     accountProduct = "1111"
                 )
                 val expectedSavedAccount = Account(
                     id = Account.Id(1),
                     displayId = Account.DisplayId("1111-0000001"),
-                    ownerName = accountCreateRequest.ownerName,
+                    ownerId = accountCreateRequest.ownerId,
                     accountProduct = AccountProduct(accountCreateRequest.accountProduct),
                     initialDeposit = accountCreateRequest.initialDeposit,
                     balance = accountCreateRequest.initialDeposit,

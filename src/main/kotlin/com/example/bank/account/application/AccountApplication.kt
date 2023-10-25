@@ -16,7 +16,7 @@ class AccountApplication(
     val accountFactory = AccountFactory(accountRepository)
     suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
         return accountFactory.createAccount(
-            accountCreateRequest.ownerName,
+            accountCreateRequest.ownerId,
             AccountProduct(accountCreateRequest.accountProduct),
             accountCreateRequest.initialDeposit
         )

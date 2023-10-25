@@ -19,14 +19,14 @@ class AccountDomainTests {
                 override fun nextAccountId() = Account.Id(id++)
             }
             runBlocking {
-                val ownerName = "홍길동"
+                val ownerId = 1L
                 val initialDeposit = BigDecimal(0)
                 val accountProduct = AccountProduct("1111")
 
                 val accountFactory = AccountFactory(NextAccountIdGeneratorImpl())
-                val account = accountFactory.createAccount(ownerName, accountProduct, initialDeposit)
+                val account = accountFactory.createAccount(ownerId, accountProduct, initialDeposit)
 
-                assert(ownerName == account.ownerName)
+                assert(ownerId == account.ownerId)
                 assert(initialDeposit == account.initialDeposit)
                 assert(initialDeposit == account.balance)
                 assert(Account.Id(1) == account.id)

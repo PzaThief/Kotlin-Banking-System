@@ -10,7 +10,7 @@ class AccountFactory(
     private val nextAccountIdGenerator: NextAccountIdGenerator
 ) {
     suspend fun createAccount(
-        ownerName: String,
+        ownerId: Long,
         accountProduct: AccountProduct,
         initialDeposit: BigDecimal
     ): Account {
@@ -19,7 +19,7 @@ class AccountFactory(
         return Account(
             id = accountId,
             displayId = newDisplayId(accountProduct, accountId),
-            ownerName = ownerName,
+            ownerId = ownerId,
             accountProduct = accountProduct,
             initialDeposit = initialDeposit,
         )
