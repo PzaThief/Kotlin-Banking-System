@@ -46,6 +46,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 }
