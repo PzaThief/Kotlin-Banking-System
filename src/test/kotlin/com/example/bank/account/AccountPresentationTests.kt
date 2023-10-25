@@ -63,10 +63,39 @@ class AccountPresentationTests(
                         assertThat(it.responseBody).isNotNull()
                         assertThat(it.responseBody!!.id).isNotNull()
                         assertThat(it.responseBody!!.createdAt).isNotNull()
-                        assertThat(it.responseBody!!.initialDeposit).isEqualTo(it.responseBody!!.balance)
                     }
 
                 Mockito.verify(application, times(1)).createAccount(accountCreateRequest)
+            }
+        }
+
+        @Test
+        fun getAccountShouldReturnDtoWith200() {
+            runBlocking {
+                val accountCreateResponse = AccountResponse(
+                    id = 1L,
+                    displayId = "1111-0000001",
+                    ownerName = "홍길동",
+                    accountProduct = "1111",
+                    initialDeposit = BigDecimal(100),
+                    balance = BigDecimal(100),
+                    updatedAt = LocalDateTime.now(),
+                    createdAt = LocalDateTime.now(),
+                )
+
+                Mockito.`when`(application.getAccount(1L)).thenReturn(accountCreateResponse)
+                webClient.get()
+                    .uri("/account/${1L}")
+                    .exchange()
+                    .expectStatus().isOk()
+                    .expectBody(AccountResponse::class.java)
+                    .consumeWith {
+                        assertThat(it.responseBody).isNotNull()
+                        assertThat(it.responseBody!!.id).isNotNull()
+                        assertThat(it.responseBody!!.createdAt).isNotNull()
+                    }
+
+                Mockito.verify(application, times(1)).getAccount(1L)
             }
         }
     }

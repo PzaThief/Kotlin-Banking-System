@@ -19,4 +19,10 @@ class AccountController(
     suspend fun createAccount(@RequestBody accountCreateRequest: AccountCreateRequest): AccountResponse {
         return accountApplication.createAccount(accountCreateRequest)
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    suspend fun getAccount(@PathVariable("id") id:Long): AccountResponse {
+        return accountApplication.getAccount(id)
+    }
 }
