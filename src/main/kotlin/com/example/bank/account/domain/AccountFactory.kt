@@ -5,6 +5,7 @@ import java.math.BigDecimal
 interface NextAccountIdGenerator {
     fun nextAccountId(): Account.Id
 }
+
 class AccountFactory(
     private val nextAccountIdGenerator: NextAccountIdGenerator
 ) {

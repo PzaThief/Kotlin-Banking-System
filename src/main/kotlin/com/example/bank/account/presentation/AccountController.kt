@@ -13,7 +13,6 @@ class AccountController(
     @Autowired
     val accountApplication: AccountApplication
 ) {
-
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
     suspend fun createAccount(@RequestBody accountCreateRequest: AccountCreateRequest): AccountResponse {
@@ -22,7 +21,7 @@ class AccountController(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    suspend fun getAccount(@PathVariable("id") id:Long): AccountResponse {
+    suspend fun getAccount(@PathVariable("id") id: Long): AccountResponse {
         return accountApplication.getAccount(id)
     }
 }

@@ -9,6 +9,7 @@ data class AccountCreateRequest(
     val accountProduct: String,
     val initialDeposit: BigDecimal
 )
+
 data class AccountResponse(
     val id: Long,
     val displayId: String,
@@ -19,14 +20,14 @@ data class AccountResponse(
     val updatedAt: LocalDateTime?,
     val createdAt: LocalDateTime?
 ) {
-    constructor(account: Account): this(
-            account.id.value,
-            account.displayId.value,
-            account.ownerName,
-            account.accountProduct.code,
-            account.initialDeposit,
-            account.balance,
-            account.updatedAt,
-            account.createdAt,
-        )
+    constructor(account: Account) : this(
+        account.id.value,
+        account.displayId.value,
+        account.ownerName,
+        account.accountProduct.code,
+        account.initialDeposit,
+        account.balance,
+        account.updatedAt,
+        account.createdAt,
+    )
 }

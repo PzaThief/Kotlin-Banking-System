@@ -13,9 +13,8 @@ class AccountApplication(
     @Autowired
     val accountRepository: AccountJpaRepository
 ) {
-
     val accountFactory = AccountFactory(accountRepository)
-    suspend fun createAccount(accountCreateRequest:AccountCreateRequest): AccountResponse {
+    suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
         return accountFactory.createAccount(
             accountCreateRequest.ownerName,
             AccountProduct(accountCreateRequest.accountProduct),

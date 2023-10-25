@@ -11,10 +11,10 @@ import java.math.BigDecimal
 class AccountDomainTests {
 
     @Nested
-    class CreateAccount {
+    inner class CreateAccount {
         @Test
         fun createAccountShouldSameWithGivenInfo() {
-            class NextAccountIdGeneratorImpl:NextAccountIdGenerator {
+            class NextAccountIdGeneratorImpl : NextAccountIdGenerator {
                 var id = 1L
                 override fun nextAccountId() = Account.Id(id++)
             }

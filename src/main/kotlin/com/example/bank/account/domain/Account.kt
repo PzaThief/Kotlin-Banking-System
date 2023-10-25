@@ -1,7 +1,7 @@
 package com.example.bank.account.domain
 
 import jakarta.persistence.*
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
@@ -46,7 +46,7 @@ class Account(
     ): Serializable
     @Converter(autoApply = true)
     class IdConverter: AttributeConverter<Id, Long> {
-        override fun convertToDatabaseColumn(attribute: Id): Long = attribute.value.toLong()
+        override fun convertToDatabaseColumn(attribute: Id): Long = attribute.value
         override fun convertToEntityAttribute(dbData: Long) = Id(dbData)
 
     }

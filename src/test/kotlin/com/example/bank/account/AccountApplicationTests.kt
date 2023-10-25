@@ -23,8 +23,7 @@ import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)
 @ActiveProfiles("test")
-class AccountApplicationTests(
-) {
+class AccountApplicationTests {
     @InjectMocks
     lateinit var accountApplication: AccountApplication
 
@@ -61,7 +60,10 @@ class AccountApplicationTests(
                 assertThat(savedAccount)
                     .usingRecursiveComparison()
                     .withComparatorForType(BigDecimal::compareTo, BigDecimal::class.java)
-                    .withComparatorForType({a, b-> a.withNano(0).compareTo(b.withNano(0))}, LocalDateTime::class.java)
+                    .withComparatorForType(
+                        { a, b -> a.withNano(0).compareTo(b.withNano(0)) },
+                        LocalDateTime::class.java
+                    )
                     .isEqualTo(account)
 
                 verify(repository, times(1)).saveAndFlush(any<Account>())
