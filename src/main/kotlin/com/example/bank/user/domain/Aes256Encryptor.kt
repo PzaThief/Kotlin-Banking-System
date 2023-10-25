@@ -19,7 +19,7 @@ object Aes256Encryptor {
             .apply { init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec) }
         val encrypted = cipher.doFinal(payload.toByteArray())
 
-        return Base64.getEncoder().encode(encrypted).toString()
+        return Base64.getEncoder().encode(encrypted).toString(Charsets.UTF_8)
     }
 
     fun decrypt(payload: String): String {
@@ -27,6 +27,6 @@ object Aes256Encryptor {
             .apply { init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec) }
         val bytesOfPayload = Base64.getDecoder().decode(payload)
 
-        return cipher.doFinal(bytesOfPayload).toString()
+        return cipher.doFinal(bytesOfPayload).toString(Charsets.UTF_8)
     }
 }
