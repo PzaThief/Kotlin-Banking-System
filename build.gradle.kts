@@ -42,6 +42,7 @@ dependencies {
     implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.mindrot:jbcrypt:0.4")
     runtimeOnly("org.postgresql:postgresql")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

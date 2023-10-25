@@ -2,6 +2,9 @@ package com.example.bank.user
 
 import com.example.bank.user.application.UserApplication
 import com.example.bank.user.application.UserCreateRequest
+import com.example.bank.user.domain.User
+import com.example.bank.user.domain.UserPersonCategory
+import com.example.bank.user.infrastructure.UserJpaRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -43,7 +46,7 @@ class UserApplicationTests {
                     loginId = "kotlin",
                     loginPassword = "hashedString",
                     name = "홍길동",
-                    personCategory = "natural",
+                    personCategory = UserPersonCategory.valueOfIgnoreCase("natural"),
                     registrationNumber = "encryptedString",
                     updatedAt = LocalDateTime.now(),
                     createdAt = LocalDateTime.now()

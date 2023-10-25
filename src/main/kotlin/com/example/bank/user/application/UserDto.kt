@@ -1,5 +1,6 @@
 package com.example.bank.user.application
 
+import com.example.bank.user.domain.User
 import java.time.LocalDateTime
 
 
@@ -16,15 +17,15 @@ data class UserResponse(
     val loginId: String,
     val name: String,
     val personCategory: String,
-    val updatedAt: LocalDateTime,
-    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime?,
+    val createdAt: LocalDateTime?,
 ) {
-//    constructor(user: User) : this(
-//        user.id.value,
-//        user.loginId,
-//        user.name,
-//        user.personCategory.code,
-//        user.updatedAt,
-//        user.createdAt,
-//    )
+    constructor(user: User) : this(
+        user.id.value,
+        user.loginId,
+        user.name,
+        user.personCategory.code,
+        user.updatedAt,
+        user.createdAt,
+    )
 }

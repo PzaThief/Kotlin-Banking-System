@@ -5,9 +5,8 @@ import com.example.bank.account.domain.AccountRepository
 import com.example.bank.account.domain.NextAccountIdGenerator
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import java.math.BigInteger
 
-interface AccountJpaRepository : JpaRepository<Account, BigInteger>, AccountRepository, NextAccountIdGenerator {
+interface AccountJpaRepository : JpaRepository<Account, Long>, AccountRepository, NextAccountIdGenerator {
     override fun findByDisplayId(accountDisplayId: Account.DisplayId): Account
 
     @Query(value = "SELECT nextval('seq_account')", nativeQuery = true)
