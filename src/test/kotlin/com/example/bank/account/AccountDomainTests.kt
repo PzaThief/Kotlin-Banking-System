@@ -13,7 +13,7 @@ class AccountDomainTests {
     @Nested
     class CreateAccount {
         @Test
-        fun success() {
+        fun createAccountShouldSameWithGivenInfo() {
             class NextAccountIdGeneratorImpl:NextAccountIdGenerator {
                 var id = 1L
                 override fun nextAccountId() = Account.Id(id++)
@@ -26,7 +26,10 @@ class AccountDomainTests {
                 val accountFactory = AccountFactory(NextAccountIdGeneratorImpl())
                 val account = accountFactory.createAccount(ownerName, accountProduct, initialDeposit)
 
+                assert(ownerName == account.ownerName)
+                assert(initialDeposit == account.initialDeposit)
                 assert(initialDeposit == account.balance)
+                assert(Account.Id(1) == account.id)
                 assert(Account.DisplayId("1111-0000001") == account.displayId)
             }
         }
