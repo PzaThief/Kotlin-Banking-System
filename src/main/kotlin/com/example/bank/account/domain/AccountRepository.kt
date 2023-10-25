@@ -5,5 +5,5 @@ interface AccountRepository {
 
     fun findByDisplayId(accountDisplayId: Account.DisplayId): Account
 
-    fun save(account: Account): Account
+    fun saveAndFlush(account: Account): Account
 }
