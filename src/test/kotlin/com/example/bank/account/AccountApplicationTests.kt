@@ -1,7 +1,7 @@
 package com.example.bank.account
 
 import com.example.bank.account.application.AccountApplication
-import com.example.bank.account.domain.AccountProduct
+import com.example.bank.account.application.AccountCreateRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -23,10 +23,12 @@ class AccountApplicationTests(
         @Test
         fun createAccountShouldSameWithSavedAccount() {
             runBlocking {
-                val ownerName = "홍길동"
-                val initialDeposit = BigDecimal(0)
-                val accountProduct = AccountProduct("1111")
-                val account = accountApplication.createAccount(ownerName, accountProduct, initialDeposit)
+                val accountCreateRequest = AccountCreateRequest(
+                    ownerName = "홍길동",
+                    initialDeposit = BigDecimal(0),
+                    accountProduct = "1111"
+                )
+                val account = accountApplication.createAccount(accountCreateRequest)
                 val savedAccount = accountApplication.getAccount(account.id)
                 assertThat(savedAccount)
                     .usingRecursiveComparison()

@@ -1,11 +1,13 @@
 package com.example.bank.account
 
-import com.example.bank.account.domain.Account
-import com.example.bank.account.domain.AccountRepository
+import com.example.bank.account.application.AccountApplication
+import com.example.bank.account.application.AccountCreateRequest
+import com.example.bank.account.application.AccountResponse
+import com.example.bank.account.presentation.AccountController
+import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.AdditionalAnswers
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,36 +17,57 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 
 @WebFluxTest(controllers = [AccountController::class])
 @ActiveProfiles("test")
 class AccountPresentationTests(
-    @MockBean
-    val repository: AccountRepository,
     @Autowired
-    val webClient: WebTestClient
+    val webClient: WebTestClient,
 ) {
+    @MockBean
+    lateinit var application: AccountApplication
+
     @Nested
     inner class CreateAccount {
         @Test
         fun createAccountShouldReturnDtoWith200() {
-            Mockito.`when`(repository.save(Mockito.any(Account::class.java))).then(AdditionalAnswers.returnsFirstArg<Account>())
+            runBlocking {
+                val accountCreateRequest = AccountCreateRequest(
+                    ownerName = "홍길동",
+                    accountProduct = "1111",
+                    initialDeposit = BigDecimal(100)
+                )
+                val accountCreateResponse = AccountResponse(
+                    id = 1L,
+                    displayId = "1111-0000001",
+                    ownerName = "홍길동",
+                    accountProduct = "1111",
+                    initialDeposit = BigDecimal(100),
+                    balance = BigDecimal(100),
+                    updatedAt = LocalDateTime.now(),
+                    createdAt = LocalDateTime.now(),
+                )
 
-            val accountCreateRequest = AccountCreateRequest(ownerName, accountProduct, initialDeposit)
-            val accountCreateResponse = AccountCreateResponse(ownerName, accountProduct, initialDeposit)
-            webClient.post()
-                .uri("/account")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(accountCreateRequest))
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(AccountCreateResponse::class.java)
-                .consumeWith {
-                    assertThat(it).isEqualTo(accountCreateResponse)
-                }
+                Mockito.`when`(application.createAccount(accountCreateRequest)).thenReturn(accountCreateResponse)
+                webClient.post()
+                    .uri("/account/")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(accountCreateRequest))
+                    .exchange()
+                    .expectStatus().isOk()
+                    .expectBody(AccountResponse::class.java)
+                    .consumeWith {
+                        assertThat(it.responseBody).isNotNull()
+                        assertThat(it.responseBody!!.id).isNotNull()
+                        assertThat(it.responseBody!!.createdAt).isNotNull()
+                        assertThat(it.responseBody!!.initialDeposit).isEqualTo(it.responseBody!!.balance)
+                    }
 
-            Mockito.verify(repository, times(1)).save(Mockito.any(Account::class.java)))
+                Mockito.verify(application, times(1)).createAccount(accountCreateRequest)
+            }
         }
     }
 }

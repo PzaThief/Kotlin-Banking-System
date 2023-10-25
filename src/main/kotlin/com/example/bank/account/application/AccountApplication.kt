@@ -6,7 +6,6 @@ import com.example.bank.account.domain.AccountProduct
 import com.example.bank.account.infrastructure.jpa.AccountJpaRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 
 
 @Service
@@ -16,13 +15,19 @@ class AccountApplication(
 ) {
 
     val accountFactory = AccountFactory(accountRepository)
-    suspend fun createAccount(ownerName: String, accountProduct: AccountProduct, initialDeposit:BigDecimal): Account {
-        val account = accountFactory.createAccount(ownerName, accountProduct, initialDeposit)
-        return accountRepository.saveAndFlush(account)
+    suspend fun createAccount(accountCreateRequest:AccountCreateRequest): AccountResponse {
+        return accountFactory.createAccount(
+            accountCreateRequest.ownerName,
+            AccountProduct(accountCreateRequest.accountProduct),
+            accountCreateRequest.initialDeposit
+        )
+            .let { accountRepository.saveAndFlush(it) }
+            .let { AccountResponse(it) }
     }
 
-    suspend fun getAccount(accountId: Account.Id): Account {
-        return accountRepository.findById(accountId)
+    suspend fun getAccount(accountId: Long): AccountResponse {
+        return accountRepository.findById(Account.Id(accountId))
+            .let { AccountResponse(it) }
     }
 
 }
