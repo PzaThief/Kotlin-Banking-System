@@ -1,4 +1,4 @@
-package com.example.bank.account.infrastructure.jpa
+package com.example.bank.account.infrastructure
 
 import com.example.bank.account.domain.Account
 import com.example.bank.account.domain.AccountRepository

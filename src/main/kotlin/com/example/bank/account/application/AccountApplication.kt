@@ -3,7 +3,7 @@ package com.example.bank.account.application
 import com.example.bank.account.domain.Account
 import com.example.bank.account.domain.AccountFactory
 import com.example.bank.account.domain.AccountProduct
-import com.example.bank.account.infrastructure.jpa.AccountJpaRepository
+import com.example.bank.account.infrastructure.AccountJpaRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

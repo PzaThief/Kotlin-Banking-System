@@ -2,7 +2,7 @@ package com.example.bank.account
 
 import com.example.bank.account.domain.Account
 import com.example.bank.account.domain.AccountProduct
-import com.example.bank.account.infrastructure.jpa.AccountJpaRepository
+import com.example.bank.account.infrastructure.AccountJpaRepository
 import com.example.bank.config.JpaAuditingConfig
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
