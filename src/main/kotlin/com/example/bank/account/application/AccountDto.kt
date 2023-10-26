@@ -31,3 +31,9 @@ data class AccountResponse(
         account.createdAt,
     )
 }
+
+data class AccountTransferRequest(
+    val fromAccountId: Long,
+    val toAccountId: Long,
+    val amount: BigDecimal
+)

@@ -29,4 +29,17 @@ class AccountApplication(
             .let { AccountResponse(it) }
     }
 
+    suspend fun transfer(accountTransferRequest: AccountTransferRequest): Boolean {
+        val fromAccount = accountRepository.findById(Account.Id(accountTransferRequest.fromAccountId))
+        val toAccount = accountRepository.findById(Account.Id(accountTransferRequest.toAccountId))
+
+        val ok = runCatching {
+            fromAccount.transfer(toAccount, accountTransferRequest.amount)
+            accountRepository.saveAndFlush(fromAccount)
+            accountRepository.saveAndFlush(toAccount)
+        }.isSuccess
+
+        return ok
+    }
+
 }
