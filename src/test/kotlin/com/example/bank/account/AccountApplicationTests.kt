@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.AdditionalAnswers.returnsFirstArg
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.kotlin.any
@@ -54,21 +55,52 @@ class AccountApplicationTests {
                 whenever(repository.findById(any<Account.Id>())).thenReturn(expectedSavedAccount)
                 whenever(repository.nextAccountId()).thenReturn(Account.Id(1))
 
-
                 val account = accountApplication.createAccount(accountCreateRequest)
                 val savedAccount = accountApplication.getAccount(account.id)
-                assertThat(savedAccount)
-                    .usingRecursiveComparison()
-                    .withComparatorForType(BigDecimal::compareTo, BigDecimal::class.java)
-                    .withComparatorForType(
-                        { a, b -> a.withNano(0).compareTo(b.withNano(0)) },
-                        LocalDateTime::class.java
-                    )
-                    .isEqualTo(account)
+                assertThat(savedAccount).isEqualTo(account)
 
                 verify(repository, times(1)).saveAndFlush(any<Account>())
                 verify(repository, times(1)).findById(any<Account.Id>())
             }
+        }
+    }
+
+    @Nested
+    inner class Transfer {
+        @Test
+        fun transferShouldKeepTotalAmount() {
+            val accountOne = Account(
+                id = Account.Id(1),
+                displayId = Account.DisplayId("1111-0000001"),
+                ownerId = 1,
+                accountProduct = AccountProduct.NARASARANG,
+                initialDeposit = BigDecimal(100),
+                balance = BigDecimal(100),
+                updatedAt = LocalDateTime.now(),
+                createdAt = LocalDateTime.now()
+            )
+            val accountTwo = Account(
+                id = Account.Id(2),
+                displayId = Account.DisplayId("1111-0000002"),
+                ownerId = 2,
+                accountProduct = AccountProduct.NARASARANG,
+                initialDeposit = BigDecimal(100),
+                balance = BigDecimal(100),
+                updatedAt = LocalDateTime.now(),
+                createdAt = LocalDateTime.now()
+            )
+            val transferAmount = BigDecimal(50)
+
+            whenever(repository.findById(accountOne.id)).thenReturn(accountOne)
+            whenever(repository.findById(accountTwo.id)).thenReturn(accountTwo)
+            whenever(repository.saveAndFlush(any<Account>())).then(returnsFirstArg<Account>())
+
+            val accountTransferRequest = accountTransferRequest(accountOne.id.value, accountTwo.id.value, transferAmount)
+            val ok = accountApplication.transfer(accountTransferRequest)
+            assert(ok)
+
+            verify(repository, times(2)).saveAndFlush(any<Account>())
+            verify(repository, times(2)).findById(any<Account.Id>())
         }
     }
 }
