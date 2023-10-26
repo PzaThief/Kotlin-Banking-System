@@ -61,4 +61,12 @@ class Account(
         override fun convertToDatabaseColumn(attribute: DisplayId?) = attribute.toString()
         override fun convertToEntityAttribute(dbData: String) = DisplayId(dbData)
     }
+
+    fun transfer(toAccount: Account, amount: BigDecimal) {
+        if (amount < BigDecimal.ZERO) throw Exception("transfer amount cannot be a negative value")
+        if (this.balance < amount) throw Exception("transfer amount cannot be a larger than current balance")
+
+        this.balance -= amount
+        toAccount.balance += amount
+    }
 }
