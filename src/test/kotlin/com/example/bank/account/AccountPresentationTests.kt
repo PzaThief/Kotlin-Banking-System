@@ -3,6 +3,7 @@ package com.example.bank.account
 import com.example.bank.account.application.AccountApplication
 import com.example.bank.account.application.AccountCreateRequest
 import com.example.bank.account.application.AccountResponse
+import com.example.bank.account.application.AccountTransferRequest
 import com.example.bank.account.presentation.AccountController
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -96,6 +97,30 @@ class AccountPresentationTests(
                     }
 
                 Mockito.verify(application, times(1)).getAccount(1L)
+            }
+        }
+    }
+
+    @Nested
+    inner class Transfer {
+        @Test
+        fun transferShouldReturn200() {
+            runBlocking {
+                val accountTransferRequest = AccountTransferRequest(
+                    fromAccountId = 1,
+                    toAccountId = 2,
+                    amount = BigDecimal(50)
+                )
+
+                Mockito.`when`(application.transfer(accountTransferRequest)).thenReturn(true)
+                webClient.post()
+                    .uri("/transfer/")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(accountTransferRequest))
+                    .exchange()
+                    .expectStatus().isOk()
+
+                Mockito.verify(application, times(1)).transfer(accountTransferRequest)
             }
         }
     }
