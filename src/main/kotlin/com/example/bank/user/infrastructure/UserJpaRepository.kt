@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface UserJpaRepository : JpaRepository<User, Long>, UserRepository, NextUserIdGenerator {
-    override fun findByLoginId(loginId: String): User
+    override fun findByLoginId(loginId: String): User?
 
     @Query(value = "SELECT nextval('seq_user')", nativeQuery = true)
     fun nextUserIdString(): String

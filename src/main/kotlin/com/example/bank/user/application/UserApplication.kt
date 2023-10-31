@@ -26,8 +26,10 @@ class UserApplication(
     }
 
     suspend fun getUser(userId: Long): UserResponse {
-        return userRepository.findById(User.Id(userId))
-            .let { UserResponse(it) }
+        val user = userRepository.findById(User.Id(userId))
+            ?: throw Exception("cannot find user by id $userId")
+
+        return UserResponse(user)
     }
 
 }
