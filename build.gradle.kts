@@ -27,6 +27,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven("https://repo.spring.io/snapshot")
 }
 
 dependencies {
@@ -37,13 +38,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.modulith:spring-modulith-starter-core")
-    implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+    implementation("org.springframework.modulith:spring-modulith-events-api")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.mindrot:jbcrypt:0.4")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.springframework.modulith:spring-modulith-events-kafka")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -54,7 +56,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.modulith:spring-modulith-bom:1.0.0")
+        mavenBom("org.springframework.modulith:spring-modulith-bom:1.1.0-SNAPSHOT")
     }
 }
 
