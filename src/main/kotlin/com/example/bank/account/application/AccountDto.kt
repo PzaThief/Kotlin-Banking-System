@@ -33,7 +33,6 @@ data class AccountResponse(
 }
 
 data class AccountTransferRequest(
-    val fromAccountId: Long,
     val toAccountId: Long,
     val amount: BigDecimal
 )

@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.AdditionalAnswers.returnsFirstArg
 import org.mockito.InjectMocks
@@ -97,11 +98,50 @@ class AccountApplicationTests {
                 whenever(repository.findById(accountTwo.id)).thenReturn(accountTwo)
                 whenever(repository.saveAndFlush(any<Account>())).then(returnsFirstArg<Account>())
 
-                val accountTransferRequest = AccountTransferRequest(accountOne.id.value, accountTwo.id.value, transferAmount)
-                val ok = accountApplication.transfer(accountTransferRequest)
+                val accountTransferRequest = AccountTransferRequest(accountTwo.id.value, transferAmount)
+                val ok = accountApplication.transfer(accountOne.id.value, accountTransferRequest)
                 assert(ok)
 
                 verify(repository, times(2)).saveAndFlush(any<Account>())
+                verify(repository, times(2)).findById(any<Account.Id>())
+            }
+        }
+
+        @Test
+        fun transferFailByWrongFromAccountId() {
+            runBlocking {
+                whenever(repository.findById(Account.Id(1L))).thenReturn(null)
+
+                val accountTransferRequest = AccountTransferRequest(2L, BigDecimal(50))
+                assertThrows<Exception> {
+                     accountApplication.transfer(1L, accountTransferRequest)
+                }
+                verify(repository, times(1)).findById(any<Account.Id>())
+            }
+        }
+
+        @Test
+        fun transferFailByWrongToAccountId() {
+            runBlocking {
+                val accountOne = Account(
+                    id = Account.Id(1),
+                    displayId = Account.DisplayId("1111-0000001"),
+                    ownerId = 1,
+                    accountProduct = AccountProduct.NARASARANG,
+                    initialDeposit = BigDecimal(100),
+                    balance = BigDecimal(100),
+                    updatedAt = LocalDateTime.now(),
+                    createdAt = LocalDateTime.now()
+                )
+                val transferAmount = BigDecimal(50)
+
+                whenever(repository.findById(accountOne.id)).thenReturn(accountOne)
+                whenever(repository.findById(Account.Id(2L))).thenReturn(null)
+
+                val accountTransferRequest = AccountTransferRequest(2L, transferAmount)
+                assertThrows<Exception> {
+                    accountApplication.transfer(accountOne.id.value, accountTransferRequest)
+                }
                 verify(repository, times(2)).findById(any<Account.Id>())
             }
         }

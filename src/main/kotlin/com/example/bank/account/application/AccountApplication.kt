@@ -25,21 +25,22 @@ class AccountApplication(
     }
 
     suspend fun getAccount(accountId: Long): AccountResponse {
-        return accountRepository.findById(Account.Id(accountId))
-            .let { AccountResponse(it) }
+        val account = accountRepository.findById(Account.Id(accountId))
+            ?: throw Exception("cannot find account by id $accountId")
+
+        return AccountResponse(account)
     }
 
-    suspend fun transfer(accountTransferRequest: AccountTransferRequest): Boolean {
-        val fromAccount = accountRepository.findById(Account.Id(accountTransferRequest.fromAccountId))
+    suspend fun transfer(fromAccountId: Long, accountTransferRequest: AccountTransferRequest): Boolean {
+        val fromAccount = accountRepository.findById(Account.Id(fromAccountId))
+            ?: throw Exception("cannot find source account by id $fromAccountId")
         val toAccount = accountRepository.findById(Account.Id(accountTransferRequest.toAccountId))
+            ?: throw Exception("cannot find destination account by id ${accountTransferRequest.toAccountId}")
+        fromAccount.transfer(toAccount, accountTransferRequest.amount)
+        accountRepository.saveAndFlush(fromAccount)
+        accountRepository.saveAndFlush(toAccount)
 
-        val ok = runCatching {
-            fromAccount.transfer(toAccount, accountTransferRequest.amount)
-            accountRepository.saveAndFlush(fromAccount)
-            accountRepository.saveAndFlush(toAccount)
-        }.isSuccess
-
-        return ok
+        return true
     }
 
 }

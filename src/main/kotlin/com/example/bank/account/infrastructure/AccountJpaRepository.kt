@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface AccountJpaRepository : JpaRepository<Account, Long>, AccountRepository, NextAccountIdGenerator {
-    override fun findByDisplayId(accountDisplayId: Account.DisplayId): Account
+    override fun findByDisplayId(accountDisplayId: Account.DisplayId): Account?
 
     @Query(value = "SELECT nextval('seq_account')", nativeQuery = true)
     fun nextAccountIdString(): String

@@ -106,21 +106,21 @@ class AccountPresentationTests(
         @Test
         fun transferShouldReturn200() {
             runBlocking {
+                val fromAccountId = 1L
                 val accountTransferRequest = AccountTransferRequest(
-                    fromAccountId = 1,
                     toAccountId = 2,
                     amount = BigDecimal(50)
                 )
 
-                Mockito.`when`(application.transfer(accountTransferRequest)).thenReturn(true)
+                Mockito.`when`(application.transfer(fromAccountId, accountTransferRequest)).thenReturn(true)
                 webClient.post()
-                    .uri("/transfer/")
+                    .uri("/account/${fromAccountId}/transfer")
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(accountTransferRequest))
                     .exchange()
                     .expectStatus().isOk()
 
-                Mockito.verify(application, times(1)).transfer(accountTransferRequest)
+                Mockito.verify(application, times(1)).transfer(fromAccountId, accountTransferRequest)
             }
         }
     }
