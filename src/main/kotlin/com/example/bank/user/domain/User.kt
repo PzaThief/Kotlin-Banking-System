@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 
@@ -34,6 +35,12 @@ class User(
     @Column(name = "registration_number", nullable = false)
     val registrationNumber: String,
 
+    @Column(name = "total_balance", nullable = false)
+    var totalBalance: BigDecimal = BigDecimal.ZERO,
+
+    @Column(name = "last_activity", columnDefinition = "timestamp with time zone")
+    var lastActivity: LocalDateTime? = null,
+
     @LastModifiedDate
     @Column(name = "updated_at", columnDefinition = "timestamp with time zone")
     var updatedAt: LocalDateTime? = null,
@@ -42,6 +49,12 @@ class User(
     @Column(name = "created_at", columnDefinition = "timestamp with time zone", nullable = false, updatable = false)
     var createdAt: LocalDateTime? = null
 ) {
+
+    fun changeBalance(amount:BigDecimal) {
+        this.lastActivity = LocalDateTime.now()
+        this.totalBalance += amount
+    }
+
     @Embeddable
     data class Id(
         @Column(name = "id", nullable = false, unique = true, updatable = false)
@@ -54,5 +67,4 @@ class User(
         override fun convertToEntityAttribute(dbData: Long) = Id(dbData)
 
     }
-
 }

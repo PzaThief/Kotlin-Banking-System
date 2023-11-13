@@ -1,18 +1,25 @@
 package com.example.bank.account.application
 
+import com.example.bank.account.AccountTransferEvent
 import com.example.bank.account.domain.Account
 import com.example.bank.account.domain.AccountFactory
 import com.example.bank.account.domain.AccountProduct
 import com.example.bank.account.infrastructure.AccountJpaRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
+@Transactional
 class AccountApplication(
     @Autowired
-    val accountRepository: AccountJpaRepository
+    val accountRepository: AccountJpaRepository,
+    @Autowired
+    val eventPublisher: ApplicationEventPublisher
 ) {
+
     val accountFactory = AccountFactory(accountRepository)
     suspend fun createAccount(accountCreateRequest: AccountCreateRequest): AccountResponse {
         return accountFactory.createAccount(
@@ -39,6 +46,15 @@ class AccountApplication(
         fromAccount.transfer(toAccount, accountTransferRequest.amount)
         accountRepository.saveAndFlush(fromAccount)
         accountRepository.saveAndFlush(toAccount)
+
+        eventPublisher.publishEvent(
+            AccountTransferEvent(
+                fromAccount.ownerId,
+                fromAccount.id.value,
+                toAccount.id.value,
+                accountTransferRequest.amount
+            )
+        )
 
         return true
     }
